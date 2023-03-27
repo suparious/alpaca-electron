@@ -63,6 +63,59 @@ Alpaca Electron
 ### MacOS
 - If you get an error that says "App can't be opened because it is from an unidentified developer.", go to the Applications folder. Then, hold the control key and click on the app. Then click "Open", then click "Open" when it gives you a warning. Your preference will be saved and MacOS will let you open the app normally from now on. 
 
+### Linux
+- If you get a message like `node_modules/electron/dist/electron exited with signal SIGSEGV` then it is likely a dependency for electron is either missing or outdated.
+
+## Linux Installation
+
+Before installing this on Linux, please make sure the following system packages have been installed:
+
+- git
+- node (version 11 or higher)
+- npm
+- (whatever alpaca.ccp requires)
+
+### Install `antimatter15/alpaca.cpp`
+If you need to compile `alpaca.cpp` then it is best to follow the install instructions from [here](https://github.com/antimatter15/alpaca.cpp), otherwise, the summary of steps is as follows:
+
+For Debian/Ubuntu, you can use `apt` to install all of the dependencies in one shot.
+
+```bash
+sudo apt-get install -yq --no-install-recommends \
+  build-essential ca-certificates tini git libx11-xcb1 libxcb-dri3-0 libxtst6 libnss3 libatk-bridge2.0-0 libgtk-3-0 libxss1 libasound2 xorg openbox libatk-adaptor nodejs npm
+```
+
+Clone the `antimatter15/alpaca.cpp` repo to your machine, and compile the `chat` app.
+
+```bash
+git clone https://github.com/antimatter15/alpaca.cpp.git /tmp/alpaca.cpp
+cd /tmp/alpaca.cpp
+make chat
+```
+
+### Install alpaca-electron
+
+Create an install directory for `alpaca-electron`, and copy over the `chat` app we just compiled from `alpaca.cpp`.
+
+```bash
+# change this to where you want to install `alpaca-electron`
+export ALPACA_ELECTRON="~/alpaca-electron"
+echo "ALPACA_ELECTRON=\"${ALPACA_ELECTRON}\"" | sudo tee -a /etc/environment
+git clone https://github.com/ItsPi3141/alpaca-electron.git ${ALPACA_ELECTRON}
+cp /tmp/alpaca.cpp/chat ${ALPACA_ELECTRON}/bin/chat
+cd ${ALPACA_ELECTRON}
+npm install
+npx electron-rebuild
+```
+
+### Run the build
+
+```bash
+${ALPACA_ELECTRON}
+npx electron --no-sandbox . 
+```
+
+
 ## 👨‍💻 Credits
 
 Credits go to [antimatter15](https://github.com/antimatter15/alpaca.cpp) for creating alpaca.cpp and to [ggerganov](https://github.com/ggerganov/llama.cpp) for creating llama.cpp, the backbones behind alpaca.cpp. Finally, credits go to Meta and Stanford for creating the LLaMA and Alpaca models, respectively.

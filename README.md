@@ -99,7 +99,7 @@ Create an install directory for `alpaca-electron`, and copy over the `chat` app 
 
 ```bash
 # change this to where you want to install `alpaca-electron`
-export ALPACA_ELECTRON="~/alpaca-electron"
+export ALPACA_ELECTRON="${HOME}/alpaca-electron"
 echo "ALPACA_ELECTRON=\"${ALPACA_ELECTRON}\"" | sudo tee -a /etc/environment
 git clone https://github.com/ItsPi3141/alpaca-electron.git ${ALPACA_ELECTRON}
 cp /tmp/alpaca.cpp/chat ${ALPACA_ELECTRON}/bin/chat
